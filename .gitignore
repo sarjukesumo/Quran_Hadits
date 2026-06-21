@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Environment
+.env
+
+# Data & output
+data/raw/
+output/
+logs/
+
+# Web (not needed for pipeline)
+web/node_modules/
+web/dist/
+
+# OS
+.DS_Store
+Thumbs.db
