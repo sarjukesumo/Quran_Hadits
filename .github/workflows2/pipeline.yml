@@ -1,0 +1,38 @@
+name: Tuyul Pipeline
+
+on:
+  schedule:
+    - cron: '0 0 */7 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - run: pip install -r requirements.txt
+
+      - run: python bot.py
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_USERNAME: ${{ secrets.HF_USERNAME }}
+          RUN_INTERVAL: '1'
+          LOG_LEVEL: INFO
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: datasets
+          path: output/
+          retention-days: 7
